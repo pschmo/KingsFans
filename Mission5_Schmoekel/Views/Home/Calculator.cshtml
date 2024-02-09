@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Calculator";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Calculator</h2>
+
+<div>
+    <label for="hours">Number of Hours:</label>
+    <input type="number" id="hours" />
+    <span class="error" id="hoursError"></span>
+</div>
+
+<div>
+    <label>Hourly Rate:</label>
+    <input type="text" id="hourlyRate" value="@ViewBag.HourlyRate" readonly />
+</div>
+
+<div>
+    <button id="calculateBtn">Calculate Total</button>
+</div>
+
+<div>
+    <label>Total:</label>
+    <input type="text" id="total" readonly />
+</div>
+
+<div>
+    <a href="@Url.Action("Index", "Home")">Back to Home</a>
+</div>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#calculateBtn").on("click", function () {
+            // Reset error message
+            $("#hoursError").text("");
+
+            // Get the entered hours
+            var hours = parseFloat($("#hours").val());
+
+            // Validate the input
+            if (isNaN(hours) || hours <= 0) {
+                $("#hoursError").text("Please enter a valid positive number.");
+                return;
+            }
+
+            // Perform the calculation
+            var hourlyRate = parseFloat($("#hourlyRate").val());
+            var total = hours * hourlyRate;
+
+            // Display the total
+            $("#total").val(total.toFixed(2));
+        });
+    });
+</script>
